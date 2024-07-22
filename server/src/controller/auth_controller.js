@@ -29,8 +29,10 @@ const login = async (req, res) => {
     }
 
     const user = {
+        id: result.id,
         email: result.email,
-        password: result.password
+        nombre: result.nombre,
+        idioma: result.idioma
     }
 
     const token = set_Token(user)
