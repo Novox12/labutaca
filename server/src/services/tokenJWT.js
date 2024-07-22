@@ -19,7 +19,7 @@ module.exports = set_Token
 /* Quitar contraseña */
 
 /*
-    1. Crear la base de datos para las peliculas (Investigar sobre el streaming) [titulo, descripcion, urlarchivo, fo_idiomas]
+    1. Crear la base de datos para las peliculas (Investigar sobre el streaming) [titulo, descripcion, urlarchivo, urlCaratula, fo_idiomas]
     2. Relacionarlo con tabla foranea de idiomas
 
     Por ahora, solamente manejar la url del archivo
