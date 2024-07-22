@@ -1,0 +1,24 @@
+meta {
+  name: post_user
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:3000/api/v1/user/registro
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBydWViYUBnbWFpbC5jb20iLCJwYXNzd29yZCI6IiQyYSQxMCRaYTIualNCR29Oa3JYRzZjY29OM3lldWxnaUhCUEZhZUZxelo0V1JmLlRBSi5jMnh0dzdwLiIsImV4cCI6MTcyMTY5NzUxMTgzMiwiaWF0IjoxNzIxNjExMTExfQ.gWSGbiHQ32iDbcnhj3qoNm5KcqhG2lqXsySe-o-CrbA
+}
+
+body:json {
+  {
+    "nombre": "Maicol",
+    "email": "prueba2@gmail.com",
+    "password": "123456789",
+    "idioma": "español"
+  }
+}
