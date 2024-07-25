@@ -1,0 +1,18 @@
+meta {
+  name: confirm_email
+  type: http
+  seq: 1
+}
+
+get {
+  url: http://localhost:3000/api/v1/auth/verification/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InlhZGFnNzk3OTlAdmFzb21seS5jb20iLCJpYXQiOjE3MjE4NDkxNTR9.TCbSnp1ZiLnlvdlQti8Y47RfhJY-ebCbrtBi45S4ARI
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "prueba@gmail.com",
+    "password": "123456789"
+  }
+}

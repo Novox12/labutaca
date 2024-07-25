@@ -1,6 +1,8 @@
 const {PrismaClient} = require('@prisma/client')
 const bcrypt = require('bcryptjs')
 const set_Token = require('../services/tokenJWT')
+const jwt = require('jsonwebtoken')
+const config = require('../config')
 
 
 const prisma = new PrismaClient()
@@ -15,6 +17,13 @@ const login = async (req, res) => {
     if(!result) {
         return res.status(404).json({
             message: 'Usuario no encontrado',
+            ok: false
+        })
+    }
+
+    if(!result.verify) {
+        return res.status(400).json({
+            message: 'Usuario no verificado',
             ok: false
         })
     }
@@ -43,4 +52,34 @@ const login = async (req, res) => {
     })
 }
 
-exports.methods = {login}
+const verification_mail = async (req, res) => {
+    const token = req.params.token
+
+    if (!token) {
+        return res.status(400).json({
+            message: 'Token no encontrado',
+            ok: false
+        })
+    }
+
+    const {email} = jwt.verify(token, config.SECRET)
+
+    const result = await prisma.user.update({
+        where: {email: email, verifyToken: token},
+        data: {verify: true}
+    })
+
+    if (!result) {
+        return res.status(400).json({
+            message: 'Usuario no encontrado',
+            ok: false
+        })
+    }
+
+    return res.status(200).json({
+        message: 'Usuario verificado',
+        ok: true
+    })
+}
+
+exports.methods = {login, verification_mail}
