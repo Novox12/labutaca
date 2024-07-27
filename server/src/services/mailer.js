@@ -1,23 +1,28 @@
-const nodeMailer = require('nodemailer')
+const nodemailer = require('nodemailer')
+const config = require('../config')
 
-/* No funciona aún, la appi esta complicada */
 const send_mail = async (email, token) => {
-    const transporter = nodeMailer.createTransport({
-        host: "smtp.ethereal.email",
-        port: 587,
-        secure: false, // Use `true` for port 465, `false` for all other ports
+    const transporter = nodemailer.createTransport({
+        service: 'Gmail',
+        port: 465,
+        secure: true,
         auth: {
-            user: "maddison53@ethereal.email",
-            pass: "jn7jnAPss4f63QBp6D",
-        },
+            user: config.EMAIL_MAILER,
+            pass: config.PASSWORD_MAILER
+        }
     })
-
+    
     const mailOptions = {
-        from: "maddison53@ethereal.email",
+        from: config.EMAIL_MAILER,
         to: email,
-        subject: 'Verificacion de correo',
-        text: 'Por favor haga click en el siguiente link para verificar su correo',
-        html: `<a href="http://localhost:3000/api/v1/auth/verification/${token}">Verificar</a>`
+        subject: 'Buenos días 23',
+        html: `
+            <h1>¡Hola! Este es un email de prueba, así que no te asustes</h1>
+            <p>Estamos probando el envío de emails con nodemailer</p>
+            <p>¡Espero que te haya llegado!</p>
+            <br>
+            <a href="http://localhost:3000/api/v1/auth/verification/${token}">Link</a>
+        `,
     }
 
     transporter.sendMail(mailOptions, (err, info) => {

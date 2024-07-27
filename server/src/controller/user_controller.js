@@ -66,8 +66,7 @@ const registro = async (req, res) => {
             })
         }
 
-        /* Completar con appi que envie emails */
-        // await send_mail(email, token)
+        await send_mail(email, token)
 
         return res.status(200).json({
             data: "Usuario registrado correctamente, debera verificar su correo",
