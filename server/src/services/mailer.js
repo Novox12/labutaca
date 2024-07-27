@@ -17,11 +17,10 @@ const send_mail = async (email, token) => {
         to: email,
         subject: 'Buenos días 23',
         html: `
-            <h1>¡Hola! Este es un email de prueba, así que no te asustes</h1>
-            <p>Estamos probando el envío de emails con nodemailer</p>
-            <p>¡Espero que te haya llegado!</p>
+            <h1>Verificación de email</h1>
+            <p>Para acceder a LaButaca, la mejor plataforma para ver series y peliculas, debes verificar tu correo electronico.</p>
             <br>
-            <a href="http://localhost:3000/api/v1/auth/verification/${token}">Link</a>
+            <p>Aquí: <a href="http://localhost:3000/api/v1/auth/verification/${token}">Link</a></p>
         `,
     }
 

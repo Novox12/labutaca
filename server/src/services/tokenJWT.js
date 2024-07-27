@@ -15,8 +15,6 @@ const set_Token = (user) => {
 
 module.exports = set_Token
 
-/* Id, Email, nombre, idioma    url-foto */
-/* Quitar contraseña */
 
 /*
     1. Crear la base de datos para las peliculas (Investigar sobre el streaming) [titulo, descripcion, urlarchivo, urlCaratula, fo_idiomas]
