@@ -82,4 +82,38 @@ const verification_mail = async (req, res) => {
     })
 }
 
-exports.methods = {login, verification_mail}
+const password_recovery = async (req, res) => {
+    const token = req.params.token
+
+    if (!token) {
+        return res.status(400).json({
+            message: 'Token no encontrado',
+            ok: false
+        })
+    }
+
+    const {email} = jwt.verify(token, config.SECRET) 
+    const password = req.body.password
+
+    const salt = await bcrypt.genSalt(10)
+    const clave = await bcrypt.hash(password, salt)
+
+    const result = await prisma.user.update({
+        where: {email: email},
+        data: {password: clave}
+    })
+
+    if (!result) {
+        return res.status(400).json({
+            message: 'Error al cambiar contraseña',
+            ok: false
+        })
+    }
+
+    return res.status(200).json({
+        message: 'Contraseña cambiada',
+        ok: true
+    })
+}
+
+exports.methods = {login, verification_mail, password_recovery}

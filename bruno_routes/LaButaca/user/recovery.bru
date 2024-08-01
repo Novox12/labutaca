@@ -1,0 +1,15 @@
+meta {
+  name: recovery
+  type: http
+  seq: 1
+}
+
+get {
+  url: http://localhost:3000/api/v1/user/passwordrecovery/juandavidgaitandiaz@gmail.com
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: 
+}

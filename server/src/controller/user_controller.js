@@ -66,7 +66,15 @@ const registro = async (req, res) => {
             })
         }
 
-        await send_mail(email, token)
+        await send_mail(email, token, {
+            subject: "Verificación de email",
+            html: `
+                <h1>Verificación de email</h1>
+                <p>Para acceder a LaButaca, la mejor plataforma para ver series y peliculas, debes verificar tu correo electronico.</p>
+                <br>
+                <p>Aquí: <a href="http://localhost:3000/api/v1/auth/verification/${token}">Link</a></p>
+            `,
+        })
 
         return res.status(200).json({
             data: "Usuario registrado correctamente, debera verificar su correo",
@@ -82,4 +90,38 @@ const registro = async (req, res) => {
 
 }
 
-exports.methods = {registro , get_all, get_one}
+const password_recovery_mail = async (req, res) => {
+    const email = req.params.email
+
+    const user = await prisma.user.findUnique({
+        where: {email: email}
+    })
+
+    if (!user) {
+        return res.status(400).json({
+            message: 'Verifique el correo',
+            ok: false
+        })
+    }
+
+    const token = set_Token_mail({
+        email: email,
+    })
+
+    await send_mail(email, token, {
+        subject: "Recuperación de contraseña",
+        html: `
+            <h1>Recuperación de contraseña</h1>
+            <p>Para recuperar tu contraseña sigue el siguiente enlace:</p>
+            <br>
+            <p>Aquí: <a href="http://localhost:3000/api/v1/auth/passwordrecovery/${token}">Link</a></p>
+        `,
+    })
+
+    return res.status(200).json({
+        message: 'Correo enviado, verificar correo',
+        ok: true
+    })
+}
+
+exports.methods = {registro , get_all, get_one, password_recovery_mail}
