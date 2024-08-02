@@ -17,3 +17,25 @@ model user {
   verifyToken String @default("")
   verify Boolean @default(false)
 }
+
+model tokens {
+  id Int @id @default(autoincrement())
+  token String @db.LongText 
+  usado Boolean @default(false)
+}
+
+model idiomas {
+  id Int @id @default(autoincrement())
+  idioma String
+  movies movies[]
+}
+
+model movies {
+  id Int @id @default(autoincrement())
+  titulo String 
+  descripcion String
+  archivo String
+  miniatura String
+  idioma idiomas @relation(fields: [idioma_id], references: [id])
+  idioma_id Int
+}

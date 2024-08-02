@@ -1,7 +1,7 @@
 const nodemailer = require('nodemailer')
 const config = require('../config')
 
-const send_mail = async (email, token, topic) => {
+const send_mail = async (email, topic) => {
     
     const {subject, html} = topic
 

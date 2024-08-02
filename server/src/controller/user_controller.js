@@ -66,7 +66,7 @@ const registro = async (req, res) => {
             })
         }
 
-        await send_mail(email, token, {
+        await send_mail(email, {
             subject: "Verificación de email",
             html: `
                 <h1>Verificación de email</h1>
@@ -91,7 +91,7 @@ const registro = async (req, res) => {
 }
 
 const password_recovery_mail = async (req, res) => {
-    const email = req.params.email
+    const email = req.body.email
 
     const user = await prisma.user.findUnique({
         where: {email: email}
@@ -108,15 +108,22 @@ const password_recovery_mail = async (req, res) => {
         email: email,
     })
 
-    await send_mail(email, token, {
+    await prisma.tokens.create({
+        data:{
+            token: token
+        }
+    })
+
+    await send_mail(email, {
         subject: "Recuperación de contraseña",
         html: `
             <h1>Recuperación de contraseña</h1>
             <p>Para recuperar tu contraseña sigue el siguiente enlace:</p>
             <br>
-            <p>Aquí: <a href="http://localhost:3000/api/v1/auth/passwordrecovery/${token}">Link</a></p>
+            <p>Aquí: <a href="http://localhost:5173/passwordrecovery?token=${token}">Link</a></p>
         `,
     })
+    // http://localhost:3000/api/v1/auth/passwordrecovery/${token}
 
     return res.status(200).json({
         message: 'Correo enviado, verificar correo',

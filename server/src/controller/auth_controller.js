@@ -83,7 +83,7 @@ const verification_mail = async (req, res) => {
 }
 
 const password_recovery = async (req, res) => {
-    const token = req.params.token
+    const token = req.body.token
 
     if (!token) {
         return res.status(400).json({
@@ -91,6 +91,34 @@ const password_recovery = async (req, res) => {
             ok: false
         })
     }
+
+    const result_token = await prisma.tokens.findFirst({
+        where: {token: token}
+    })
+
+    if (!result_token) {
+        return res.status(400).json({
+            message: 'Token no encontrado',
+            ok: false
+        })
+    } else if(result_token.usado){ 
+        return res.status(400).json({
+            message: 'Token ya usado',
+            ok: false
+        })
+    }
+
+    if (token.exp < Date.now()) {
+        return res.status(400).json({
+            message: 'Token expirado',
+            ok: false
+        })
+    }
+
+    await prisma.tokens.update({
+        where: {id: result_token.id},
+        data: {usado: true}
+    })
 
     const {email} = jwt.verify(token, config.SECRET) 
     const password = req.body.password
