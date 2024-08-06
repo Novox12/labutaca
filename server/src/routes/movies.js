@@ -8,6 +8,7 @@ const router = Router()
 router.get('/all', verify_token, movie.get_all)
 router.get('/one/:titulo', verify_token, movie.get)
 
-router.post('/upload', upload_movie.fields([{ name: 'movie', maxCount: 1 }, { name: 'miniatura', maxCount: 1 }]), movie.upload)
+const upload_middlewares = [verify_token, upload_movie.fields([{ name: 'movie', maxCount: 1 }, { name: 'miniatura', maxCount: 1 }])]
+router.post('/upload', upload_middlewares, movie.upload)
 
 module.exports = router

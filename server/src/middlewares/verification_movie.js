@@ -1,15 +1,14 @@
 const multer = require("multer")
 
 const movies_path = "./public/movies/"
-var file_name = ""
 
 const storage = multer.diskStorage({
     destination: function (req, file, cd) {
         cd(null, movies_path)
     },
     filename: function (req, file, cd) {
-        file_name = Date.now()+"-"+file.originalname
-        cd(null, file_name)
+        const unique_code = Date.now() + "-" + Math.round(Math.random() * 1E9) + "." + file.originalname.split(".")[1]
+        cd(null, file.fieldname+"-"+unique_code)
     }
 })
 

@@ -1,4 +1,5 @@
 const {PrismaClient} = require('@prisma/client')
+const fs = require('fs')
 
 const prisma = new PrismaClient()
 
@@ -37,7 +38,21 @@ const get = async (req, res) => {
 
 const upload = async (req, res) => {
 
-    // console.log(req.files)
+    const movie = await prisma.movies.findUnique({
+        where: {titulo: req.body.titulo}
+    })
+
+    if (movie) {
+
+        fs.unlinkSync(req.files.movie[0].path)
+        fs.unlinkSync(req.files.miniatura[0].path)
+
+        return res.status(400).json({
+            message: 'Ya existe una pelicula con ese titulo',
+            ok: false
+        })
+    }
+    
     await prisma.movies.create({
         data: {
             titulo: req.body.titulo,

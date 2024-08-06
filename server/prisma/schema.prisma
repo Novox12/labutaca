@@ -12,7 +12,7 @@ model user {
   nombre String
   email String @unique
   password String
-  idioma String
+  idioma_id String
   verifyToken String @default("")
   verify Boolean @default(false)
 }
@@ -31,9 +31,9 @@ model idiomas {
 
 model movies {
   id Int @id @default(autoincrement())
-  titulo String 
+  titulo String @unique
   descripcion String
-  archivo String
+  archivo String @unique
   miniatura String
   idioma idiomas @relation(fields: [idioma_id], references: [id])
   idioma_id Int
