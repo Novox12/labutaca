@@ -31,8 +31,33 @@ const get = async (req, res) => {
     }
 
     res.status(200).json({
-        movie: movie.archivo, // Confirmar con Maicol :v
+        id: movie.id,
         ok: true
+    })
+}
+
+const get_path = async (req, res) => {
+    if(!req.params.id) {
+        return res.status(400).json({
+            message: 'Falta ID',
+            ok: false
+        })
+    }
+
+    const movie = await prisma.movies.findUnique({
+        where: {id: parseInt(req.params.id)}
+    })
+
+    if(!movie) {
+        return res.status(404).json({
+            message: "pelicula no encontrada",
+            ok: false
+        })
+    }
+
+    return res.status(200).json({
+        path: movie.archivo,
+        miniatura: movie.miniatura,
     })
 }
 
@@ -44,6 +69,7 @@ const upload = async (req, res) => {
 
     if (movie) {
 
+        /* Delete files - Evitamos inyecciones */
         fs.unlinkSync(req.files.movie[0].path)
         fs.unlinkSync(req.files.miniatura[0].path)
 
@@ -69,4 +95,4 @@ const upload = async (req, res) => {
     })
 }
 
-exports.methods = {upload, get_all, get}
+exports.methods = {upload, get_all, get, get_path}

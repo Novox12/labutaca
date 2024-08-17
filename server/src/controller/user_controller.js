@@ -53,7 +53,7 @@ const registro = async (req, res) => {
                 nombre: nombre,
                 email: email,
                 password: clave,
-                idioma: idioma,
+                idioma_id: idioma,
                 verifyToken: token,
                 verify: false
             },

@@ -7,12 +7,20 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model idiomas {
+  id Int @id @default(autoincrement())
+  idioma String
+  movies movies[]
+  user user[]
+}
+
 model user {
   id Int @id @default(autoincrement())
   nombre String
   email String @unique
   password String
-  idioma_id String
+  idioma idiomas @relation(fields: [idioma_id], references: [id])
+  idioma_id Int
   verifyToken String @default("")
   verify Boolean @default(false)
 }
@@ -23,12 +31,6 @@ model tokens {
   usado Boolean @default(false)
 }
 
-model idiomas {
-  id Int @id @default(autoincrement())
-  idioma String
-  movies movies[]
-}
-
 model movies {
   id Int @id @default(autoincrement())
   titulo String @unique
@@ -37,4 +39,5 @@ model movies {
   miniatura String
   idioma idiomas @relation(fields: [idioma_id], references: [id])
   idioma_id Int
+  tendencia Boolean @default(false)
 }

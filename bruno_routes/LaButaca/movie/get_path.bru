@@ -1,0 +1,15 @@
+meta {
+  name: get_path
+  type: http
+  seq: 1
+}
+
+get {
+  url: http://localhost:3000/api/v1/movie/path/1
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqdWFuZGF2aWRnYWl0YW5kaWF6QGdtYWlsLmNvbSIsIm5vbWJyZSI6Ikp1YW4gR2FpdMOhbiIsImlkaW9tYSI6ImVzcGHDsW9sIiwiZXhwIjoxNzIzOTk3OTk4OTQ3LCJpYXQiOjE3MjM5MTE1OTh9.e2leNsScrMd1-kipndCrHQfdCEYtTv--44-kP4UeoUA
+}
